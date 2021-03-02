@@ -23,9 +23,7 @@ public class CustomerController {
 
     @GetMapping(path = "{customerId}")
     Customer getCustomer(@PathVariable("customerId") Long id) {
-        return customerService.getCustomer().stream()
-                .filter(customer -> customer.getId().equals(id))
-                .findFirst().orElseThrow(() -> new IllegalStateException("customer not found"));
+        return customerService.getCustomer(id);
     }
 
     @PostMapping
