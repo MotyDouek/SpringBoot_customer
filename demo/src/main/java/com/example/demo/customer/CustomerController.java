@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequestMapping(path = "api/v1/customer")
 @RestController
 public class CustomerController {
 
@@ -16,8 +17,15 @@ public class CustomerController {
     }
 
     @GetMapping //tells spring boot that a client can reach this data
-    List<Customer> getCustomer() {
+    List<Customer> getCustomers() {
         return customerService.getCustomer();
+    }
+
+    @GetMapping(path = "{customerId}")
+    Customer getCustomer(@PathVariable("customerId") Long id) {
+        return customerService.getCustomer().stream()
+                .filter(customer -> customer.getId().equals(id))
+                .findFirst().orElseThrow(() -> new IllegalStateException("customer not found"));
     }
 
     @PostMapping
